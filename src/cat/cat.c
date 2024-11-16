@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <getopt.h>
 #include "cat.h"
 
 flags parser(int args, char ** argv) {
     flags arg = {0};
-    struct option long_option[] = {
+    struct option long_option[] = { //  struct option: {const char *name;  int has_arg; int *flag;  int val;}
         {"number", no_argument, NULL, 'n'},
         {"number-nonblank", no_argument, NULL, 'b'},
         {"squezze-blank", no_argument, NULL, 's'},
@@ -14,7 +15,7 @@ flags parser(int args, char ** argv) {
     
     int arguments;
     
-    arguments = getopt_long(args, argv, "bnEesTt", long_option, 0);
+    while ((arguments = getopt_long(args, argv, "bnEesTt", long_option, 0)) != -1) {
 
     switch (arguments)
     {
@@ -46,10 +47,10 @@ flags parser(int args, char ** argv) {
     default:
         perror("Error");
         exit(1);
+        }
     }
     return arg;
 }
-// }
 
 char v_flag(unsigned char ch) {
     if (ch == '\n' || ch == '\t') {
@@ -82,23 +83,22 @@ void outline(flags *arg, char *line, int n) {
     }
 }
 
-// void print(char *argv[], flags flag) {
-//     FILE *f = fopen(argv[optind], "r");
-//     if(f) {
-//         int cur;
-//         int str_count = 0;
-//         int empty_count = 1;
-//         int counter = 0;
-//         while ((cur = fgetc(f)) != EOF)
-//             if(flag.b) {
-                
-//             }
-        
-//     }
-//     else printf("No such file %s", f);
-//     char *line = NULL;
-//     size_t mem_for_line = 0;
-//     int read_count = 0;
+void output (flags *arg, char **argv) {
+     FILE *f = fopen(argv[optind], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
+    if (f == NULL) {
+        perror("Error");
+        return;
+    }
+    int line_counter = 1;
+    char line[MAX_LINE_SIZE];
+    // int read = fgets(line, MAX_LINE_SIZE, f);
+    while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
+        if (arg->n == 1) {
+            printf("%6d\t", line_counter);
+        }
+        outline(arg, line, strlen(line));  
+        line_counter++;
+    }
 
-//     fclose(f);
-// } 
+    fclose(f);
+}
