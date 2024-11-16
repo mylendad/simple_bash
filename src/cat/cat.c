@@ -27,12 +27,11 @@ flags parser(int args, char ** argv) {
             break;
         case 'E':
             arg.E = 1;
-            printf("%d", arg.E);
+            // printf("%d", arg.E);
             break;
         case 'e':
             arg.E = 1;
             arg.v = 1;
-            printf("flag e");
             break;
         case 's':
             arg.s = 1;
@@ -84,7 +83,7 @@ void outline(flags *arg, char *line, int n) {
 }
 
 void output (flags *arg, char **argv) {
-     FILE *f = fopen(argv[optind], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
+    FILE *f = fopen(argv[optind], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
     if (f == NULL) {
         perror("Error");
         return;
@@ -93,12 +92,29 @@ void output (flags *arg, char **argv) {
     char line[MAX_LINE_SIZE];
     // int read = fgets(line, MAX_LINE_SIZE, f);
     while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
+        // if (arg->s == 1) {
+            
+        // }
+        if (arg->b == 1) {
+            if (line[0] == '\n') {
+            printf("%6d\t", line_counter);
+            }
+        }
         if (arg->n == 1) {
             printf("%6d\t", line_counter);
         }
+    if (arg->s == 0) {
         outline(arg, line, strlen(line));  
-        line_counter++;
     }
-
+    else {
+        if (line[0] == '\n') {
+                if (line[optind] != '\n') {
+                    outline(arg, line, strlen(line));
+                }
+            }
+    }
+    line_counter++;
+    
+    }
     fclose(f);
 }
