@@ -8,12 +8,12 @@ typedef struct flags
     int b, n, e, E, s, t, T, v;
 }flags;
 
-flags parser(int args, char ** argv);
+flags parser(int args, char ** argv,int *counter);
 
 void outline(flags *arg, char *line, int n);
 
 void print(char *argv[], flags *flag);
 
-void output (flags *arg, char *argv[]);
+void output (flags *arg, int file_count, char *argv[]);
 
 #endif

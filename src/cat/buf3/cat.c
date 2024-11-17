@@ -4,7 +4,7 @@
 #include <getopt.h>
 #include "cat.h"
 
-flags parser(int args, char ** argv, int *counter) {
+flags parser(int args, char ** argv) {
     flags arg = {0};
     struct option long_option[] = { //  struct option: {const char *name;  int has_arg; int *flag;  int val;}
         {"number", no_argument, NULL, 'n'},
@@ -14,9 +14,9 @@ flags parser(int args, char ** argv, int *counter) {
     };
     
     int arguments;
-  
-    while ((arguments = getopt_long(args, argv, "bnEesTt", long_option, 0)) != -1) {
     
+    while ((arguments = getopt_long(args, argv, "bnEesTt", long_option, 0)) != -1) {
+
     switch (arguments)
     {
         case 'b':
@@ -47,10 +47,7 @@ flags parser(int args, char ** argv, int *counter) {
         perror("Error");
         exit(1);
         }
-        (*counter)++;
-        printf("%d", *counter);
     }
-    printf("%d", *counter);
     return arg;
 }
 
@@ -122,47 +119,43 @@ void outline(flags *arg, char *line, int n) {
     }
 }
 
-void output (flags *arg, int file_count, char **argv) {
-    
-    for (int i = 0; i < file_count; i++) {
-        printf("PPPPP %s PPPPP\n", argv[i]);
-        FILE *f = fopen(argv[i], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
-        if (f == NULL) {
-            perror("Error");
-            return;
+void output (flags *arg, char **argv) {
+    FILE *f = fopen(argv[optind], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
+    if (f == NULL) {
+        perror("Error");
+        return;
+    }
+    int line_counter = 1;
+    char line[MAX_LINE_SIZE];
+    int previous_line = 0;
+    // int read = fgets(line, MAX_LINE_SIZE, f);
+    while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
+        int empty_line = (line[0] == '\n');
+        if (arg->b == 1) {
+            if (line[0] == '\n') {
+            printf("%6d\t", line_counter);
+            }
         }
-        int line_counter = 1;
-        char line[MAX_LINE_SIZE];
-        int previous_line = 0;
-        // int read = fgets(line, MAX_LINE_SIZE, f);
-        while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
-            int empty_line = (line[0] == '\n');
-            if (arg->b == 1) {
-                if (line[0] == '\n') {
-                printf("%6d\t", line_counter);
-                }
-            }
-            if (arg->n == 1) {
-                printf("%6d\t", line_counter);
-                
-            }
-        // if (arg->s == 0) {
-        //     outline(arg, line, strlen(line));  
+        if (arg->n == 1) {
+            printf("%6d\t", line_counter);
             
-        // }
-        // else
-            if (arg->s == 0 || (arg->s == 1 && !(previous_line && empty_line))){
-                        outline(arg, line, strlen(line));
-                    
-                    }
-                previous_line = empty_line;
-
-
-
-
-        line_counter++;
-        
         }
-        fclose(f);
-    } 
+    // if (arg->s == 0) {
+    //     outline(arg, line, strlen(line));  
+        
+    // }
+    // else
+        if (arg->s == 0 || (arg->s == 1 && !(previous_line && empty_line))){
+                    outline(arg, line, strlen(line));
+                   
+                }
+             previous_line = empty_line;
+
+
+
+
+    line_counter++;
+    
+    }
+    fclose(f);
 }
