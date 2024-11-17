@@ -51,21 +51,51 @@ flags parser(int args, char ** argv) {
     return arg;
 }
 
-char v_flag(unsigned char ch) {
-    if (ch == '\n' || ch == '\t') {
-        return ch; // предварительная проверка аргументов функции
+char v_flag(unsigned char simbol) {
+    if (simbol == '\n' || simbol == '\t') {
+        return simbol; // предварительная проверка аргументов функции
     }
-    if (ch <= 31) {
+    if (simbol <= 31) {
         putchar('^');
-        ch += 64;
-        // printf("flag v000000000");
+        simbol += 64;
     }
-    if (ch > 127) {
+    else {
+        {
+                  if (simbol < 127)
+                    simbol = simbol;
+                  else if (simbol == 127)
+                    {
+                      putchar('^');
+                      simbol = '?';
+                    }
+                  else
+                    {
+                      putchar('M');
+                      simbol = '-';
+                      if (simbol >= 128 + 32)
+                        {
+                          if (simbol < 128 + 127)
+                            simbol = simbol - 128;
+                          else
+                            {
+                              putchar('^');
+                              simbol = '?';
+                            }
+                        }
+                      else
+                        {
+                          putchar('^');
+                          simbol = simbol - 128 + 64;
+                        }
+                    }
+                }
+    }
+
+    if (simbol == 127) {
         putchar('^');
-        ch = '?';
-        // printf("flag vV000000000");
+        simbol = '?';
     }
-    return ch;
+    return simbol;
 }
 
 void outline(flags *arg, char *line, int n) {
@@ -75,9 +105,16 @@ void outline(flags *arg, char *line, int n) {
         }
         if (arg->v == 1) {
             line[i] = v_flag(line[i]);
-            
+            }
+        if (arg->T == 1 && line[i] == '\t') {
+            putchar ('^');
+            line[i] = 'I';
         }
-
+        
+    //     if (arg->T == 1) {
+    //         if (line[0] == '\n') {
+    //         printf("%6d\t", line_counter);
+    //         }
         putchar(line[i]);
     }
 }
@@ -92,9 +129,7 @@ void output (flags *arg, char **argv) {
     char line[MAX_LINE_SIZE];
     // int read = fgets(line, MAX_LINE_SIZE, f);
     while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
-        // if (arg->s == 1) {
-            
-        // }
+        
         if (arg->b == 1) {
             if (line[0] == '\n') {
             printf("%6d\t", line_counter);
