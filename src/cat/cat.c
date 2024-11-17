@@ -106,13 +106,14 @@ void outline(flags *arg, char *line, int n) {
         if (arg->E == 1 && line[i] == '\n') {
             putchar ('$');
         }
-        if (arg->v == 1) {
-            line[i] = v_flag(line[i]);
-            }
+        
         if (arg->T == 1 && line[i] == '\t') {
             putchar ('^');
             line[i] = 'I';
         }
+        if (arg->v == 1) {
+            line[i] = v_flag(line[i]);
+            }
         
     //     if (arg->T == 1) {
     //         if (line[0] == '\n') {
@@ -138,7 +139,7 @@ void output (flags *arg, int file_count, char **argv) {
         while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
             int empty_line = (line[0] == '\n');
             if (arg->b == 1) {
-                if (line[0] == '\n') {
+                if (line[0] != '\n') {
                 printf("%6d\t", line_counter);
                 }
             }
