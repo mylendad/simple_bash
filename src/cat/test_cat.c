@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     }
 
     flags arg = parser(argc, argv);
-    printf("@@@@@%d %d@@@@@@", arg.n, arg.E);
+    printf("@@@@@%d %d@@@@@@", arg.n, arg.s);
     output(&arg, argv);
     return 0;
 }

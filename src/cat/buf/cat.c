@@ -131,7 +131,7 @@ void output (flags *arg, char **argv) {
     while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
         
         if (arg->b == 1) {
-            if (line[0] != '\n') {
+            if (line[0] == '\n') {
             printf("%6d\t", line_counter);
             }
         }
