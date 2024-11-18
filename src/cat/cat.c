@@ -47,7 +47,7 @@ flags parser(int args, char ** argv, int *counter) {
         exit(1);
         }
         (*counter)++;
-        // printf("QQQQ%dQQQQ", *counter);
+   
     }
     
     return argument;
@@ -146,7 +146,7 @@ void output (flags *argument, int file_count, char **argv) {
             }
 
                 if (argument->s != 1 || previous_line == 0 || empty_line == 0){
-                // printf("QQQQ %d QQQQQ %d QQQQQQ", empty_line, previous_line);
+            
                         outline(argument, line, strlen(line));
                     }
             previous_line = empty_line;
