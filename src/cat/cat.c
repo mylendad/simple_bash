@@ -9,7 +9,7 @@ flags parser(int args, char ** argv, int *counter) {
     struct option long_option[] = { //  struct option: {const char *name;  int has_arg; int *flag;  int val;}
         {"number", no_argument, NULL, 'n'},
         {"number-nonblank", no_argument, NULL, 'b'},
-        {"squezze-blank", no_argument, NULL, 's'},
+        {"squeeze-blank", no_argument, NULL, 's'},
         {0, 0, 0, 0}
     };
     
@@ -27,7 +27,6 @@ flags parser(int args, char ** argv, int *counter) {
             break;
         case 'E':
             arg.E = 1;
-            // printf("%d", arg.E);
             break;
         case 'e':
             arg.E = 1;
@@ -114,11 +113,6 @@ void outline(flags *arg, char *line, int n) {
         if (arg->v == 1) {
             line[i] = v_flag(line[i]);
             }
-        
-    //     if (arg->T == 1) {
-    //         if (line[0] == '\n') {
-    //         printf("%6d\t", line_counter);
-    //         }
         putchar(line[i]);
     }
 }
@@ -126,7 +120,6 @@ void outline(flags *arg, char *line, int n) {
 void output (flags *arg, int file_count, char **argv) {
     
     for (int i = 0; i < file_count; i++) {
-        printf("PPPPP %s PPPPP\n", argv[i]);
         FILE *f = fopen(argv[i], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
         if (f == NULL) {
             perror("Error");
@@ -135,9 +128,10 @@ void output (flags *arg, int file_count, char **argv) {
         int line_counter = 1;
         char line[MAX_LINE_SIZE];
         int previous_line = 0;
-        // int read = fgets(line, MAX_LINE_SIZE, f);
+
         while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
             int empty_line = (line[0] == '\n');
+            
             if (arg->b == 1) {
                 if (line[0] != '\n') {
                 printf("%6d\t", line_counter);
@@ -145,24 +139,14 @@ void output (flags *arg, int file_count, char **argv) {
             }
             if (arg->n == 1) {
                 printf("%6d\t", line_counter);
-                
             }
-        // if (arg->s == 0) {
-        //     outline(arg, line, strlen(line));  
-            
-        // }
-        // else
-            if (arg->s == 0 || (arg->s == 1 && !(previous_line && empty_line))){
+            // if (arg->s == 0 || (arg->s == 1 && (!previous_line || !empty_line))){
+                if (arg->s != 1 || previous_line == 0 || empty_line == 0){
+                printf("QQQQ %d QQQQQ %d QQQQQQ", empty_line, previous_line);
                         outline(arg, line, strlen(line));
-                    
                     }
-                previous_line = empty_line;
-
-
-
-
-        line_counter++;
-        
+            previous_line = empty_line;
+            line_counter++;
         }
         fclose(f);
     } 
