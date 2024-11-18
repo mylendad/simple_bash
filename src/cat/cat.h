@@ -10,10 +10,10 @@ typedef struct flags
 
 flags parser(int args, char ** argv,int *counter);
 
-void outline(flags *arg, char *line, int n);
+void outline(flags *argument, char *line, int n);
 
 void print(char *argv[], flags *flag);
 
-void output (flags *arg, int file_count, char *argv[]);
+void output (flags *argument, int file_count, char *argv[]);
 
 #endif

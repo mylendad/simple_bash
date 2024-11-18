@@ -5,7 +5,7 @@
 #include "cat.h"
 
 flags parser(int args, char ** argv, int *counter) {
-    flags arg = {0};
+    flags argument = {0};
     struct option long_option[] = { //  struct option: {const char *name;  int has_arg; int *flag;  int val;}
         {"number", no_argument, NULL, 'n'},
         {"number-nonblank", no_argument, NULL, 'b'},
@@ -20,37 +20,37 @@ flags parser(int args, char ** argv, int *counter) {
     switch (arguments)
     {
         case 'b':
-            arg.b = 1;
+            argument.b = 1;
             break;
         case 'n':
-            arg.n = 1;
+            argument.n = 1;
             break;
         case 'E':
-            arg.E = 1;
+            argument.E = 1;
             break;
         case 'e':
-            arg.E = 1;
-            arg.v = 1;
+            argument.E = 1;
+            argument.v = 1;
             break;
         case 's':
-            arg.s = 1;
+            argument.s = 1;
             break;
         case 'T':
-            arg.T = 1;
+            argument.T = 1;
             break;
         case 't':
-            arg.T = 1;
-            arg.v = 1;
+            argument.T = 1;
+            argument.v = 1;
             break;   
     default:
         perror("Error");
         exit(1);
         }
         (*counter)++;
-        printf("%d", *counter);
+        // printf("QQQQ%dQQQQ", *counter);
     }
-    printf("%d", *counter);
-    return arg;
+    
+    return argument;
 }
 
 char v_flag(unsigned char simbol) {
@@ -100,24 +100,24 @@ char v_flag(unsigned char simbol) {
     return simbol;
 }
 
-void outline(flags *arg, char *line, int n) {
+void outline(flags *argument, char *line, int n) {
     for (int i = 0; i < n; i++) {
-        if (arg->E == 1 && line[i] == '\n') {
+        if (argument->E == 1 && line[i] == '\n') {
             putchar ('$');
         }
         
-        if (arg->T == 1 && line[i] == '\t') {
+        if (argument->T == 1 && line[i] == '\t') {
             putchar ('^');
             line[i] = 'I';
         }
-        if (arg->v == 1) {
+        if (argument->v == 1) {
             line[i] = v_flag(line[i]);
             }
         putchar(line[i]);
     }
 }
 
-void output (flags *arg, int file_count, char **argv) {
+void output (flags *argument, int file_count, char **argv) {
     
     for (int i = 0; i < file_count; i++) {
         FILE *f = fopen(argv[i], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
@@ -130,23 +130,27 @@ void output (flags *arg, int file_count, char **argv) {
         int previous_line = 0;
 
         while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
-            int empty_line = (line[0] == '\n');
-            
-            if (arg->b == 1) {
+            int empty_line = 0;
+            if (line[0] == '\n') {
+                empty_line = 1;
+            }
+            if (argument->n == 1) {
+                printf("%6d\t", line_counter);
+                line_counter++;
+            }
+            if (argument->b == 1) {
                 if (line[0] != '\n') {
                 printf("%6d\t", line_counter);
+                line_counter++;
                 }
             }
-            if (arg->n == 1) {
-                printf("%6d\t", line_counter);
-            }
-            // if (arg->s == 0 || (arg->s == 1 && (!previous_line || !empty_line))){
-                if (arg->s != 1 || previous_line == 0 || empty_line == 0){
-                printf("QQQQ %d QQQQQ %d QQQQQQ", empty_line, previous_line);
-                        outline(arg, line, strlen(line));
+
+                if (argument->s != 1 || previous_line == 0 || empty_line == 0){
+                // printf("QQQQ %d QQQQQ %d QQQQQQ", empty_line, previous_line);
+                        outline(argument, line, strlen(line));
                     }
             previous_line = empty_line;
-            line_counter++;
+            // line_counter++;
         }
         fclose(f);
     } 

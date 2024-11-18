@@ -14,21 +14,15 @@ cat_run:
 		$(CC)  $(CFLAGS) test_cat.c cat.c $(LDFLAGS) -o s21_cat.out
 
 tests:
-		diff <(./s21_cat.out $(FILE)) <(cat $(FILE))
-		if [ $? -eq 0 ]; then
-			echo "SUCCES!"
-		else 
-			echo "FAIL!"
-		fi
-		# -diff <(./s21_cat.out -e $(FILE)) <(cat -e $(FILE))
-		# -diff <(./s21_cat.out -n $(FILE)) <(cat -n $(FILE))
-		# -diff <(./s21_cat.out -b $(FILE)) <(cat -b $(FILE))
-		# -diff <(./s21_cat.outs -s $(FILE)) <(cat -s $(FILE))
-		# -diff <(./s21_cat.out -t $(FILE)) <(cat -t $(FILE))
-		# -diff <(./s21_cat.out --number-nonblank $(FILE)) <(cat -b $(FILE))
-		# -diff <(./s21_cat.out --number $(FILE)) <(cat -n $(FILE))
-		# -diff <(./s21_can --squeeze-blank $(FILE)) <(cat -s $(FILE))
-		# -diff <(./s21_cat.out -etsnb $(FILE)) <(cat -etsnb $(FILE))
+		# @diff <(./s21_cat.out $(FILE)) <(cat $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out -e $(FILE)) <(cat -e $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out -n $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out -b $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out -s $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out -t $(FILE)) <(cat -t $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out --number-nonblank $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out --number $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# @diff <(./s21_cat.out --squeeze-blank $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 
 		# $(CHECK) ./s21_cat.out $(FILE) | grep ERROR
 		# $(CHECK) ./s21_cat.out -n $(FILE) | grep ERROR

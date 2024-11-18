@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
         return 0; 
     }
     int counter = 1;
-    flags arg = parser(argc, argv, &counter);
+    flags argument = parser(argc, argv, &counter);
     int index_for_file = argc - counter; 
-    output(&arg, index_for_file, &argv[counter]);
+    output(&argument, index_for_file, &argv[counter]);
     return 0;
 }
