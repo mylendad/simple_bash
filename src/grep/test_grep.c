@@ -4,7 +4,7 @@
 #include <getopt.h>
 #include "grep.h"
 
-#include <regex.h>
+
 
 
 

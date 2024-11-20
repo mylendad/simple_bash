@@ -8,15 +8,15 @@
 
 flags parser(int args, char **argv) {
     flags argument = {0}; 
-    int arguments;
+    int arguments = getopt(args, argv, "e:ivclnhsf:o");
   
-    while ((arguments = getopt(args, argv, "e:ivclnhsf:o")) != -1) {
+    while ((arguments) != -1) { // почему ":"
     
     switch (arguments)
     {
         case 'e':
             argument.e = 1;
-            argument.reg_pattern = optarg;
+            argument.reg_pattern = optarg; // optarg
             break;
         case 'i':
             argument.i = REG_ICASE;
@@ -50,37 +50,32 @@ flags parser(int args, char **argv) {
             perror("Error");
             exit(1);
         }
-        if (argument.reg_pattern == NULL) {
-            argument.reg_pattern = argv[optind];
+    }
+    if (argument.reg_pattern == NULL) {
+            argument.reg_pattern = argv[optind]; // optind — это индекс следующего обрабатываемого элемента argv. Изначально "1"
             optind++;
         }
-    }
     return argument;
 }
 
-
-void reader(flags argument, char* path, regex_t *reg) {
+void reader(flags argument, char * path, regex_t *reg) {
     FILE* f = fopen(path, "r");
     if (f == NULL) {
         if (argument.s != 0) {
             perror(path);
         }
-        exit(1);
+        return;
     }
 
-    char* line = NULL;
-    int read = 0;
+    char line[MAX_LINE_SIZE];
 
-        while (getline(line, MAX_LINE_SIZE, f) != NULL) {
+        while (fgets(line, sizeof(line), f) != NULL) {
             int result = regexec(reg, line, 0, NULL, 0);
             if ((result == 0)) {
-                outline(line, read);
+                outline(line, strlen(line));
                 }
         }
-        free(line);
-        if (argument.c && argument.l) {
             fclose(f);
-            }
     }
 
 
@@ -101,9 +96,10 @@ void output (flags argument, int argc, char **argv) {
     int result = regcomp(&reg, argument.reg_pattern, argument.i); // если больше 0 то ошибка
     if (result != 0) {
         perror ("Error");
-        for (int i = optind; i < argc; i++) { // optind
+       return;
+    }
+    for (int i = optind; i < argc; i++) { // optind
             reader(argument, argv[i], &reg);
         }
-    }
-
+    regfree(&reg);
 }

@@ -1,6 +1,7 @@
 #ifndef GREP_H
 #define GREP_H
 
+#include <regex.h>
 #define MAX_LINE_SIZE 1024
 
 typedef struct flags
@@ -10,6 +11,7 @@ typedef struct flags
 }flags;
 
 flags parser(int args, char ** argv);
+
 
 void outline(char *line, int n);
 
