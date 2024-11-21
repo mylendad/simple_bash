@@ -15,7 +15,7 @@ flags parser(int args, char ** argv);
 
 void outline(char *line, int n);
 
-void comparator(flags argument, char* path, regex_t *reg);
+void comparator(flags argument, char* path, regex_t *reg, char **argv);
 
 void output (flags argument, int argc, char *argv[]);
 

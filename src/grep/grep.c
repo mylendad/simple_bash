@@ -156,9 +156,10 @@ flags parser(int args, char **argv) {
                 argument.n = 1;
                 argument.reg_pattern = optarg;
                 break;
-            // case 'h':
-            //     argument.T = 1;
-            //     break;
+            case 'l':
+                argument.l = 1;
+                argument.reg_pattern = optarg;
+                break;
             // case 's':
             //     argument.T = 1;
             //     argument.v = 1;
@@ -172,7 +173,7 @@ flags parser(int args, char **argv) {
             //     argument.v = 1;
             
             default:
-                perror("ErrorParser\n");
+                perror("ErrorParser");
                 exit(1);
             }
         }
@@ -197,7 +198,7 @@ void outline(char *line, int n){
     // }
 }
 
-void comparator(flags *argument, char * file, regex_t *reg) {
+void comparator(flags *argument, char * file, regex_t *reg, char **argv) {
     FILE* f = fopen(file, "r");
     if (f == NULL) {
         if (argument->s == 0) {
@@ -213,27 +214,29 @@ void comparator(flags *argument, char * file, regex_t *reg) {
         while (fgets(line, sizeof(line), f) != NULL) {
             
             int result = regexec(reg, line, 0, NULL, 0); // int regexec(const regex_t *preg, const char *string, size_t nmatch, regmatch_t pmatch[], int eflags);
+            if (result == 0  && argument->l == 1) {
+                char *name = *argv;
+    
+            printf("%s\n", name+2);
+        }
             if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0){
-                // if (result == 0) {
+        
                  if (argument->n == 1) {
-                
-                
-                
                 printf("%d:", line_counter);
             }
                 outline(line, strlen(line));
-                // int result = regexec(reg, line, 0, NULL, 0);
-                // }
             }
              if (result == 0  && argument->c == 1) {
                count_reg++;
             }
+            
            line_counter++;
 
         }
         if (argument->c == 1) {
-            printf("QQQQQQQQ %d QQQQQQQQQQ", count_reg);
+            printf("%d", count_reg);
         }
+        
             fclose(f);
     }
 
@@ -250,7 +253,7 @@ void output (flags *argument, int argc, char **argv) {
     }
  
     for (int i = optind; i < argc; i++) { // optind
-            comparator(argument, argv[i], &reg);
+            comparator(argument, argv[i], &reg, argv);
         }
     regfree(&reg); // Предоставив regfree предварительно обработанный буферный шаблон, preg освободит память, отведенную этому шаблону во время процесса компиляции regcomp.
 }
