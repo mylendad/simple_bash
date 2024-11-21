@@ -17,5 +17,7 @@ int main(int argc, char *argv[]) {
     flags argument = parser(argc, argv);
     // int index_for_file = argc - counter; 
     output(argument, argc, argv);
-    return 0;
+    // char* test_line = "
+    //         printf("QQQQQQQQQQQQQQQQQQQQQ%ldQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ", strlen(test_line));
+    // return 0;
 }

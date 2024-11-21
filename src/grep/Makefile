@@ -1,18 +1,17 @@
 CC=gcc
 CFLAGS=-std=c11 -Wall -Werror -Wextra
-LISTFLAGS=-save-temps -H
 LDFLAGS=-g 
 MATHFLAG=-lm
 TARGET=main
 SHELL:=/bin/bash
 FILE=test.txt test_2.txt
 CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
-.PHONY: all cat_run clean
 
-all: clean cat_run tests
+all: clean s21_grep tests
+
 
 s21_grep:
-		$(CC)  $(CFLAGS) test_grep.c grep.c $(LDFLAGS) -o grep.out
+		$(CC)  $(CFLAGS) test_grep.c grep.c $(LDFLAGS) -o s21_grep
 
 tests:
 		
@@ -25,11 +24,11 @@ tests:
 		# $(CHECK) ./cat.out -tnesb $(FILE) | grep ERROR
 
 clean: 
-		rm *.out
+		rm s21_grep
 
 leaks_linux:
-		valgrind --tool=memcheck --leak-check=yes ./grap.out
+		valgrind --tool=memcheck --leak-check=yes ./s21_grep
 
 leaks_mac_os:
-		leaks -atExit -- ./grap.out
+		leaks -atExit -- ./s21_grep
 
