@@ -119,17 +119,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <regex.h>
-// #include <sys/types.h>
 #include <getopt.h>
+#include "grep.h"
 
 
 #define MAX_LINE_SIZE 1024
-
-typedef struct flags
-{
-    char *reg_pattern;
-    int e, i, v, c, l, n, h, s, f, o;
-}flags;
 
 flags parser(int args, char **argv) {
     flags argument = {0}; 
@@ -176,7 +170,9 @@ flags parser(int args, char **argv) {
                 perror("ErrorParser");
                 exit(1);
             }
+            // printf("%s:", *argv);
         }
+        // printf("%s:", *argv);
         if (argument.reg_pattern == NULL && optind < args) { // // на слчай если регулярное выражение не распарсилось с помощью флагов
             argument.reg_pattern = argv[optind]; // optind — это индекс следующего обрабатываемого элемента argv. Изначально "1"
             optind++;
@@ -198,7 +194,7 @@ void outline(char *line, int n){
     // }
 }
 
-void comparator(flags *argument, char * file, regex_t *reg, char **argv) {
+void comparator(flags *argument, char *file, regex_t *reg, char **argv) {
     FILE* f = fopen(file, "r");
     if (f == NULL) {
         if (argument->s == 0) {
@@ -234,7 +230,10 @@ void comparator(flags *argument, char * file, regex_t *reg, char **argv) {
 
         }
         if (argument->c == 1) {
-            printf("%d", count_reg);
+            // printf("%s:", *argv);
+            // printf("%s:", *argv);
+            printf("%d\n", count_reg);
+            // printf("%s:", *argv);
         }
         
             fclose(f);
@@ -252,18 +251,23 @@ void output (flags *argument, int argc, char **argv) {
        return;
     }
  
-    for (int i = optind; i < argc; i++) { // optind
-            comparator(argument, argv[i], &reg, argv);
+    for (int i = optind; i < argc; i++) {  // optind
+            
+            if (argv[4] != NULL) {
+            //  printf("%s:", argv[i]);
+        printf("%s:", argv[i]);
+        
         }
+        comparator(argument, argv[i], &reg, argv);
+    }
     regfree(&reg); // Предоставив regfree предварительно обработанный буферный шаблон, preg освободит память, отведенную этому шаблону во время процесса компиляции regcomp.
-}
+// }
 
-int main(int argc, char *argv[]) {
+// int main(int argc, char *argv[]) {
    
-    flags argument = parser(argc, argv);
+//     flags argument = parser(argc, argv);
    
-    output(&argument, argc, argv);
+//     output(&argument, argc, argv);
   
-    return 0;
+//     return 0;
 }
-
