@@ -158,18 +158,18 @@ flags parser(int args, char **argv) {
                 argument.h = 1;
                 argument.reg_pattern = optarg;
                 break;
-            // case 's':
-            //     argument.T = 1;
-            //     argument.v = 1;
-            //     break;   
-            // case 'f':
-            //     argument.T = 1;
-            //     argument.v = 1;
-            //     break; 
-            // case 'o':
-            //     argument.T = 1;
-            //     argument.v = 1;
-            
+            case 's':
+                argument.s = 1;
+                argument.reg_pattern = optarg;
+                break;   
+            case 'f':
+                argument.f = 1;
+                argument.reg_pattern = optarg;
+                break; 
+            case 'o':
+                argument.o = 1;
+                argument.reg_pattern = optarg;
+                break;
             default:
                 perror("ErrorParser");
                 exit(1);
@@ -204,7 +204,9 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv) {
     FILE* f = fopen(file_name, "r");
     if (f == NULL) {
         if (argument->s == 0) {
+        
             perror(file_name);
+            
         }
         return;
     }
@@ -212,7 +214,7 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv) {
     char line[MAX_LINE_SIZE];
     int count_reg = 0; 
     int line_counter = 1;
-    int count = 3;
+    
 
         while (fgets(line, sizeof(line), f) != NULL) {
             
@@ -222,8 +224,14 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv) {
     
             printf("%s\n", name+2);
         }
-            if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0){
+        // printf("%s",argv[2]);
+            
+            if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0 && argument->o == 0){
         
+                if (argv[3] != NULL && argument->h == 0){
+                    printf("%s:", file_name);
+                }
+
                  if (argument->n == 1) {
                 printf("%d:", line_counter);
             }
@@ -245,34 +253,43 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv) {
 // count++;
         // printf("%s:!", file_name);
         // printf("count++!!!!");
-        if (argv[4] == NULL && argument->h == 0) {
+        
         //     //  printf("%s:", argv[count_filename]);
         // printf("%s:", file_name);
-        printf("%s:", file_name);
-            }
-                outline(line, strlen(line));
-            }
-             if (result == 0  && argument->c == 1) {
-               count_reg++;
-            }
+       
+                // if (result == 0  && argument->o == 0) {
+                //     printf("%s\n", argv[0]);
+
+               
+            // }
+        
+            outline(line, strlen(line));
+               
+            
+           
+                }
+
             
            line_counter++;
         //    printf("count++!!!!");
-
+        
+            if (result == 0  && argument->o == 1) {
+                printf("%s\n", argv[2]);
+            }
         }
-        count++;
+       
         if (argument->c == 1) {
             // printf("%s:", *argv);
             // printf("%s:", *argv);
             printf("%d\n", count_reg);
             // printf("%s:", *argv);
         }
-
+        
         
             fclose(f);
-    }
+    
 
-
+}
 
 
 void output (flags *argument, int argc, char **argv) {
