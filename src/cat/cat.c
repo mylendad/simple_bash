@@ -7,10 +7,10 @@
 flags parser(int args, char ** argv, int *counter) {
     flags argument = {0};
     struct option long_option[] = { //  struct option: {const char *name;  int has_arg; int *flag;  int val;}
-        {"number", no_argument, NULL, 'n'},
-        {"number-nonblank", no_argument, NULL, 'b'},
-        {"squeeze-blank", no_argument, NULL, 's'},
-        {0, 0, 0, 0}
+        {"number", no_argument, NULL, 'n'}, // Если flag равен NULL, то getopt_long() возвращает val 
+        {"number-nonblank", no_argument, NULL, 'b'}, // может быть: no_argument (или 0), если параметр не требует значения; required_argument (или 1), если параметр требует значения; optional_argument (или 2), если параметр может иметь необязательное значение.
+        {"squeeze-blank", no_argument, NULL, 's'}, // значение, которое возвращается или загружается в переменную, на которую указывает flag.
+        {NULL, 0, NULL, 0} 
     };
     
     int arguments;
@@ -117,13 +117,13 @@ void outline(flags *argument, char *line, int n) {
     }
 }
 
-void output (flags *argument, int file_count, char **argv) {
+void output (flags *argument, int file_count, char **argv) { // вынести в reader(no)
     
     for (int i = 0; i < file_count; i++) {
-        FILE *f = fopen(argv[i], "r"); // optind -  индекс следующего обрабатываемого аргумента, иниц. "1"
+        FILE *f = fopen(argv[i], "r"); 
         if (f == NULL) {
             perror("Error");
-            return;
+            return; 
         }
         int line_counter = 1;
         char line[MAX_LINE_SIZE];

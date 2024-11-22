@@ -11,7 +11,7 @@ CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
 all: clean cat_run tests
 
 s21_cat:
-		$(CC)  $(CFLAGS) test_cat.c cat.c $(LDFLAGS) -o cat.out
+		$(CC)  $(CFLAGS) test_cat.c cat.c $(LDFLAGS) -o s21_cat
 
 tests:
 		@diff <(./cat.out $(FILE)) <(cat $(FILE)) && echo "SUCCES!" || echo "FAIL!"
