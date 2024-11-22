@@ -16,8 +16,8 @@
 //                 argument.e = 1;
 //                 argument.reg_pattern = optarg; // // Если за таким символом стоит двоеточие, то параметр требует указания аргумента. При этом getopt() помещает указатель на следующий за символом параметра текст в тот же элемент argv, или на текст следующего элемента argv в optarg.
 //                 break;
-//             case 'i':
-//                 argument.i = REG_ICASE; // не учитывать регистр
+//             case 'count_filename':
+//                 argument.count_filename = REG_ICASE; // не учитывать регистр
 //                 break;
 //             case 'v':
 //                 argument.v = 1;
@@ -57,11 +57,11 @@
 //     return argument;
 // }
 
-// void comparator(flags argument, char * file, regex_t *reg) {
-//     FILE* f = fopen(file, "r");
+// void comparator(flags argument, char * file_name, regex_t *reg) {
+//     FILE* f = fopen(file_name, "r");
 //     if (f == NULL) {
 //         if (argument.s != 0) {
-//             perror(file);
+//             perror(file_name);
 //         }
 //         return;
 //     }
@@ -90,8 +90,8 @@
 
 
 // void outline(char *line, int n){
-//     for (int i = 0; i < n; i++) {
-//         putchar(line[i]);
+//     for (int count_filename = 0; count_filename < n; count_filename++) {
+//         putchar(line[count_filename]);
 
 //     }
 //     // if (line[n - 1] != '\n') {
@@ -104,13 +104,13 @@
 //     argument = parser(argc, argv); // why?
 //     regex_t reg; // аргумент preg в  regcomp, regexec (хранение буфергого шаблона, указатель на заканчивающуюся null строку regex и флаги cflags, используемые для определения типа компиляции.)
    
-//     if (regcomp(&reg, argument.reg_pattern, argument.i) != 0) { // regcomp если больше 0 то ошибка
+//     if (regcomp(&reg, argument.reg_pattern, argument.count_filename) != 0) { // regcomp если больше 0 то ошибка
 //         perror ("ErrorOutput");
 //        return;
 //     }
  
-//     for (int i = optind; i < argc; i++) { // optind
-//             comparator(argument, argv[i], &reg);
+//     for (int count_filename = optind; count_filename < argc; count_filename++) { // optind
+//             comparator(argument, argv[count_filename], &reg);
 //         }
 //     regfree(&reg); // Предоставив regfree предварительно обработанный буферный шаблон, preg освободит память, отведенную этому шаблону во время процесса компиляции regcomp.
 // }
@@ -154,6 +154,10 @@ flags parser(int args, char **argv) {
                 argument.l = 1;
                 argument.reg_pattern = optarg;
                 break;
+            case 'h':
+                argument.h = 1;
+                argument.reg_pattern = optarg;
+                break;
             // case 's':
             //     argument.T = 1;
             //     argument.v = 1;
@@ -185,8 +189,10 @@ flags parser(int args, char **argv) {
 }
 
 void outline(char *line, int n){
-    for (int i = 0; i < n; i++) {
-        putchar(line[i]);
+    for (int count_filename = 0; count_filename < n; count_filename++) {
+        
+        // printf("%s:", argv[3]);
+        putchar(line[count_filename]); // putchar()
 
     }
     // if (line[n - 1] != '\n') {
@@ -194,11 +200,11 @@ void outline(char *line, int n){
     // }
 }
 
-void comparator(flags *argument, char *file, regex_t *reg, char **argv) {
-    FILE* f = fopen(file, "r");
+void comparator(flags *argument, char *file_name, regex_t *reg, char **argv) {
+    FILE* f = fopen(file_name, "r");
     if (f == NULL) {
         if (argument->s == 0) {
-            perror(file);
+            perror(file_name);
         }
         return;
     }
@@ -206,6 +212,7 @@ void comparator(flags *argument, char *file, regex_t *reg, char **argv) {
     char line[MAX_LINE_SIZE];
     int count_reg = 0; 
     int line_counter = 1;
+    int count = 3;
 
         while (fgets(line, sizeof(line), f) != NULL) {
             
@@ -220,6 +227,29 @@ void comparator(flags *argument, char *file, regex_t *reg, char **argv) {
                  if (argument->n == 1) {
                 printf("%d:", line_counter);
             }
+        //          if (argv[4] != NULL) {
+        //     //  printf("%s:", argv[count_filename]);
+        // printf("%s:", argv[3]);
+        
+        // }
+
+
+        // if (argv[4] != NULL) {
+        //     //  printf("%s:", argv[count_filename]);
+        // printf("%s:", file_name);
+        
+        
+        // }
+        // printf("%s:", *argv);
+
+// count++;
+        // printf("%s:!", file_name);
+        // printf("count++!!!!");
+        if (argv[4] == NULL && argument->h == 0) {
+        //     //  printf("%s:", argv[count_filename]);
+        // printf("%s:", file_name);
+        printf("%s:", file_name);
+            }
                 outline(line, strlen(line));
             }
              if (result == 0  && argument->c == 1) {
@@ -227,14 +257,17 @@ void comparator(flags *argument, char *file, regex_t *reg, char **argv) {
             }
             
            line_counter++;
+        //    printf("count++!!!!");
 
         }
+        count++;
         if (argument->c == 1) {
             // printf("%s:", *argv);
             // printf("%s:", *argv);
             printf("%d\n", count_reg);
             // printf("%s:", *argv);
         }
+
         
             fclose(f);
     }
@@ -246,28 +279,21 @@ void output (flags *argument, int argc, char **argv) {
     
     regex_t reg; // аргумент preg в  regcomp, regexec (хранение буфергого шаблона, указатель на заканчивающуюся null строку regex и флаги cflags, используемые для определения типа компиляции.)
    
-    if (regcomp(&reg, argument->reg_pattern, argument->i) != 0) { // regcomp если больше 0 то ошибка; argument->i - флаг в функции regcomp
+    if (regcomp(&reg, argument->reg_pattern, argument->i) != 0) { // regcomp если больше 0 то ошибка; argument->count_filename - флаг в функции regcomp
         perror ("ErrorOutput");
        return;
     }
- 
-    for (int i = optind; i < argc; i++) {  // optind
-            
-            if (argv[4] != NULL) {
-            //  printf("%s:", argv[i]);
-        printf("%s:", argv[i]);
-        
-        }
-        comparator(argument, argv[i], &reg, argv);
+    int count_filename;
+//  char *file_name = argv[count_filename];
+    
+    for (count_filename = optind; count_filename < argc; count_filename++) {  // optind
+            // printf("%s:", argv[count_filename]);
+        //     if (argv[4] != NULL) {
+        //     //  printf("%s:", argv[count_filename]);
+        //     // char *file_name = argv[count_filename];
+        // printf("%s:", file_name);
+        // }
+        comparator(argument, argv[count_filename], &reg, argv);
     }
     regfree(&reg); // Предоставив regfree предварительно обработанный буферный шаблон, preg освободит память, отведенную этому шаблону во время процесса компиляции regcomp.
-// }
-
-// int main(int argc, char *argv[]) {
-   
-//     flags argument = parser(argc, argv);
-   
-//     output(&argument, argc, argv);
-  
-//     return 0;
 }
