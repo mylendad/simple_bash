@@ -23,7 +23,7 @@ void outline(char *line, int n);
 
 FILE *reader(flags *argument, char *file_name);
 
-void comparator(flags *argument, char *file, regex_t *reg, char **argv);
+void comparator(flags *argument, char *file, regex_t *reg, char **argv, int count_filename);
 
 void output (flags *argument, int argc, char **argv);
 
