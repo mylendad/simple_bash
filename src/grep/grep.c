@@ -279,7 +279,14 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int
         
 
         if (argument->c == 1){ // лишний prant argv[0]
-                printf("%d\n", count_reg);
+        char *name_file = argv[count_filename];
+         if (argv[4] != NULL) {
+                        printf("%s:", name_file);
+                        
+                        // printf("%s\n", argv[1]);
+                    }
+                    printf("%d\n", count_reg);
+                
         }
 
         //  if (regexec(reg, line, 0, NULL, 0) == 0  && argument->l == 1) {
@@ -308,10 +315,14 @@ void output (flags *argument, int argc, char **argv) {
     
     for (count_filename = optind; count_filename < argc; count_filename++) {  // optind
             
-           if (argv[4] != NULL  && argument->h == 0 && argument->l == 0 && argument->s == 0 && argument->o == 0 && argument->f == 0 && argument->e == 0 && argument->v == 0){ // for flag -c
+           if (argv[4] != NULL  && argument->h == 0 && argument->l == 0 && argument->s == 0 && argument->o == 0 && argument->f == 0 && argument->e == 0 && argument->v == 0 && argument->i == 0 && argument->n == 0 && strstr("-", argv[1]) != NULL ){ // for flag -c
             // if (argv[4] != NULL  && argument->c == 1 && argument->s == 1){ // for flag -c
                     if (strstr("-", argv[4]) == NULL) {
                 printf("%s:", argv[count_filename]);
+// printf("%sVOTA1:\n", argv[1]);
+// printf("%sVOTA2:\n", argv[2]);
+// printf("%sVOTA:", argv[count_filename]);
+
             }
             // if (argument->c == 1) {
             //     printf("%s:", argv[count_filename]);
