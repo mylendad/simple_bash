@@ -7,13 +7,15 @@
 
 typedef struct flags
 {
-    int len;
+    long unsigned int len;
     // char pattern_e[MAX_LINE_SIZE];
-    char reg_pattern[MAX_LINE_SIZE];
+    char *reg_pattern;
     int e, i, v, c, l, n, h, s, f, o;
 }flags;
 
 void add_pattern(flags *argument, char *pattern);
+
+void reader_regs(flags *argument, char *file_name);
 
 flags parser(int args, char **argv);
 
