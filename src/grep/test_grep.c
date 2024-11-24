@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
     }
     // int index_for_file = argc - counter; 
     output(&argument, argc, argv);
+    free(argument.reg_pattern);
     // char* test_line = "
     //         printf("QQQQQQQQQQQQQQQQQQQQQ%ldQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ", strlen(test_line));
     // return 0;

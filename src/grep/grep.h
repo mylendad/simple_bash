@@ -7,7 +7,8 @@
 
 typedef struct flags
 {
-    long unsigned int len;
+    int len;
+    int memory;
     // char pattern_e[MAX_LINE_SIZE];
     char *reg_pattern;
     int e, i, v, c, l, n, h, s, f, o;

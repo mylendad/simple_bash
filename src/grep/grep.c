@@ -92,15 +92,35 @@ flags parser(int argc, char **argv) {
     return argument;
 }
 
+// void add_pattern(flags *argument, char *pattern) {
+//     int len_pattern = strlen(pattern);
+//     argument->memory = MAX_LINE_SIZE;
+//     // if (pattern[len_pattern - 1] == '\n') {
+//     //     pattern[len_pattern - 1];
+//     // }
+//     if (argument->len == 0) {
+//         argument->reg_pattern = malloc(argument->memory * sizeof(char));
+//         argument->reg_pattern = '\0';
+//         }
+//     if (argument->memory < len_pattern + argument->len) {
+//         argument->reg_pattern = realloc(argument->reg_pattern, argument->memory * 2);
+//         }
+//     if (argument->len > 0) {
+//         strcat(argument->reg_pattern, "|");
+//         argument->len++;
+//     }
+//     argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF
+  
+    
+// }
+
 void add_pattern(flags *argument, char *pattern) {
     int len_pattern = strlen(pattern);
-    // if (pattern[len_pattern - 1] == '\n') {
-    //     pattern[len_pattern - 1];
-    // }
+  
     if (argument->len == 0) {
         argument->reg_pattern = malloc(len_pattern * sizeof(char));
         }
-    if (len_pattern * sizeof(char) < len_pattern + argument->len) {
+    if (len_pattern < len_pattern + argument->len) {
         argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern * argument->len) * sizeof(char));
         }
     if (argument->len > 0) {
@@ -108,11 +128,9 @@ void add_pattern(flags *argument, char *pattern) {
         argument->len++;
     }
     argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF
-    // printf("%s!!!\n", argument->reg_pattern);
-    // printf("%d!!!\n", argument->e);
-    // printf("%d!!!\n", argument->f);
-    // printf("%d!!!\n", argument->len);
+
 }
+
 
 void reader_regs(flags *argument, char *file_name) {
    
@@ -121,14 +139,13 @@ void reader_regs(flags *argument, char *file_name) {
     int line_counter = 0;
    
         while (fgets(line, sizeof(line), f) != NULL) {
-            // printf("%sQQQ", line);
+            
             if (line[strlen(line) - 1] == '\n') {
                 line[strlen(line) - 1] = '\0';
             }
             add_pattern(argument, line);
             line_counter++;
-            // fgets(line, sizeof(line),f);
-            //  outline(line, strlen(line));
+            
     }
     fclose(f);
 
