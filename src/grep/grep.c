@@ -101,7 +101,7 @@ void add_pattern(flags *argument, char *pattern) {
         argument->reg_pattern = malloc(len_pattern * sizeof(char));
         }
     if (len_pattern * sizeof(char) < len_pattern + argument->len) {
-        argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern + argument->len) * sizeof(char));
+        argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern * argument->len) * sizeof(char));
         }
     if (argument->len > 0) {
         strcat(argument->reg_pattern, "|");
@@ -308,7 +308,8 @@ void output (flags *argument, int argc, char **argv) {
     
     for (count_filename = optind; count_filename < argc; count_filename++) {  // optind
             
-           if (argv[4] != NULL  && argument->h == 0 && argument->l == 0){ // for flag -c
+           if (argv[4] != NULL  && argument->h == 0 && argument->l == 0 && argument->s == 0 && argument->o == 0 && argument->f == 0 && argument->e == 0 && argument->v == 0){ // for flag -c
+            // if (argv[4] != NULL  && argument->c == 1 && argument->s == 1){ // for flag -c
                     if (strstr("-", argv[4]) == NULL) {
                 printf("%s:", argv[count_filename]);
             }
