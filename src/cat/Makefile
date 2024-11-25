@@ -8,36 +8,40 @@ FILE=test.txt test_2.txt
 CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
 .PHONY: all cat_run clean
 
-all: clean cat_run tests
-
-s21_cat:
+all: clean 21_cat tests
 		$(CC)  $(CFLAGS) test_cat.c cat.c $(LDFLAGS) -o s21_cat
 
 tests:
-		@diff <(./cat.out $(FILE)) <(cat $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		@diff <(./cat.out -e $(FILE)) <(cat -e $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		@diff <(./cat.out -n $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out -b $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out -s $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out -t $(FILE)) <(cat -t $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out --number-nonblank $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out --number $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# @diff <(./cat.out --squeeze-blank $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_cat $(FILE)) <(cat $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_cat -e $(FILE)) <(cat -e $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_cat -n $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat -b $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat -s $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat -t $(FILE)) <(cat -t $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat --number-nonblank $(FILE)) <(cat -b $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat --number $(FILE)) <(cat -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		
+		diff <(./s21_cat --squeeze-blank $(FILE)) <(cat -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 
-		# $(CHECK) ./cat.out $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -n $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -e $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -s $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -b $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -t $(FILE) | grep ERROR
-		# $(CHECK) ./cat.out -tnesb $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -n $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -e $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -s $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -b $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -t $(FILE) | grep ERROR
+		# $(CHECK) ./s21_cat -tnesb $(FILE) | grep ERROR
 
 clean: 
-		rm *.out
+		rm s21_cat
 
 leaks_linux:
-		valgrind --tool=memcheck --leak-check=yes ./cat.out
+		valgrind --tool=memcheck --leak-check=yes ./s21_cat
 
 leaks_mac_os:
-		leaks -atExit -- ./cat.out
+		leaks -atExit -- ./s21_cat
 

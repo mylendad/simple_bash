@@ -44,7 +44,7 @@ flags parser(int args, char ** argv, int *counter) {
             break;   
     default:
         perror("Error");
-        exit(1);
+        argument.error = 1;
         }
         (*counter)++;
    
@@ -54,9 +54,13 @@ flags parser(int args, char ** argv, int *counter) {
 }
 
 char v_flag(unsigned char simbol) {
-    if (simbol == '\n' || simbol == '\t') {
-        return simbol; // предварительная проверка аргументов функции
-    }
+    // if (simbol == '\n' || simbol == '\t') {
+    //     return simbol; // предварительная проверка аргументов функции
+    // }
+    // if (simbol < 0) {
+    //     putchar('M'); // что тос этим сделать
+    //     putchar('-');
+    // }
     if (simbol <= 31) {
         putchar('^');
         simbol += 64;
@@ -111,6 +115,7 @@ void outline(flags *argument, char *line, int n) {
             line[i] = 'I';
         }
         if (argument->v == 1) {
+            if (line[i] != '\n' || line[i] != '\t')
             line[i] = v_flag(line[i]);
             }
         putchar(line[i]);

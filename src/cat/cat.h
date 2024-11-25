@@ -5,6 +5,7 @@
 
 typedef struct flags
 {
+    int error;
     int b, n, e, E, s, t, T, v;
 }flags;
 
