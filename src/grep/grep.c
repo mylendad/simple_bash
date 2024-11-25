@@ -118,7 +118,7 @@ void add_pattern(flags *argument, char *pattern) {
     int len_pattern = strlen(pattern);
   
     if (argument->len == 0) {
-        argument->reg_pattern = malloc(len_pattern * sizeof(char));
+        argument->reg_pattern = malloc(len_pattern + 1 * sizeof(char));
         }
     if (len_pattern < len_pattern + argument->len) {
         argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern * argument->len) * sizeof(char));
