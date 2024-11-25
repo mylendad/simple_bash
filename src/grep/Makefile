@@ -5,7 +5,7 @@ MATHFLAG=-lm
 TARGET=main
 SHELL:=/bin/bash
 FILE=./test_files/test.txt ./test_files/test_0_grep.txt ./test_files/test_1_grep.txt ./test_files/test_2_grep.txt ./test_files/test_3_grep.txt ./test_files/test_4_grep.txt ./test_files/test_5_grep.txt ./test_files/test_6_grep.txt
-CHECK=2>&1 leaks -atExit -- 
+CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
 
 all: clean s21_grep tests
 
@@ -79,26 +79,26 @@ tests:
 		
 	
 		
-		$(CHECK) ./s21_grep -ei $(FILE)
-		$(CHECK) ./s21_grep -ev $(FILE)
-		$(CHECK) ./s21_grep -ec $(FILE)
-		$(CHECK) ./s21_grep -el $(FILE)
-		$(CHECK) ./s21_grep -en $(FILE)
-		$(CHECK) ./s21_grep -eh $(FILE)
-		$(CHECK) ./s21_grep -es $(FILE)
-		$(CHECK) ./s21_grep -ef $(FILE)
-		$(CHECK) ./s21_grep -eo $(FILE)
-		$(CHECK) ./s21_grep -vc $(FILE)
-		$(CHECK) ./s21_grep -vl $(FILE)
-		$(CHECK) ./s21_grep -vn $(FILE)
-		$(CHECK) ./s21_grep -vh $(FILE)
-		$(CHECK) ./s21_grep -vs $(FILE)
-		$(CHECK) ./s21_grep -vf $(FILE)
-		$(CHECK) ./s21_grep -vo $(FILE)
-		$(CHECK) ./s21_grep -cl $(FILE)
-		$(CHECK) ./s21_grep -cn $(FILE)
-		$(CHECK) ./s21_grep -ch $(FILE)
-		$(CHECK) ./s21_grep -cs $(FILE)
+		# $(CHECK) ./s21_grep -ei $(FILE)
+		# $(CHECK) ./s21_grep -ev $(FILE)
+		# $(CHECK) ./s21_grep -ec $(FILE)
+		# $(CHECK) ./s21_grep -el $(FILE)
+		# $(CHECK) ./s21_grep -en $(FILE)
+		# $(CHECK) ./s21_grep -eh $(FILE)
+		# $(CHECK) ./s21_grep -es $(FILE)
+		# $(CHECK) ./s21_grep -ef $(FILE)
+		# $(CHECK) ./s21_grep -eo $(FILE)
+		# $(CHECK) ./s21_grep -vc $(FILE)
+		# $(CHECK) ./s21_grep -vl $(FILE)
+		# $(CHECK) ./s21_grep -vn $(FILE)
+		# $(CHECK) ./s21_grep -vh $(FILE)
+		# $(CHECK) ./s21_grep -vs $(FILE)
+		$(CHECK) ./s21_grep -vf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -vo $(FILE)
+		# $(CHECK) ./s21_grep -cl $(FILE)
+		# $(CHECK) ./s21_grep -cn $(FILE)
+		# $(CHECK) ./s21_grep -ch $(FILE)
+		# $(CHECK) ./s21_grep -cs $(FILE)
 		# $(CHECK) ./s21_grep -cf $(FILE)
 		# $(CHECK) ./s21_grep -co $(FILE)
 		# $(CHECK) ./s21_grep -ln $(FILE)

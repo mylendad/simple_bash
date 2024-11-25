@@ -92,44 +92,40 @@ flags parser(int argc, char **argv) {
     return argument;
 }
 
+
 // void add_pattern(flags *argument, char *pattern) {
 //     int len_pattern = strlen(pattern);
-//     argument->memory = MAX_LINE_SIZE;
-//     // if (pattern[len_pattern - 1] == '\n') {
-//     //     pattern[len_pattern - 1];
-//     // }
+  
 //     if (argument->len == 0) {
-//         argument->reg_pattern = malloc(argument->memory * sizeof(char));
-//         argument->reg_pattern = '\0';
+//         argument->reg_pattern = malloc((len_pattern + 1024 ) * sizeof(char));
 //         }
-//     if (argument->memory < len_pattern + argument->len) {
-//         argument->reg_pattern = realloc(argument->reg_pattern, argument->memory * 2);
+//     if (len_pattern < len_pattern + argument->len) {
+//         argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern + argument->len) * sizeof(char));
 //         }
 //     if (argument->len > 0) {
 //         strcat(argument->reg_pattern, "|");
 //         argument->len++;
 //     }
-//     argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF
-  
-    
+//     argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
+
 // }
 
 void add_pattern(flags *argument, char *pattern) {
     int len_pattern = strlen(pattern);
   
     if (argument->len == 0) {
-        argument->reg_pattern = malloc(len_pattern + 1 * sizeof(char));
-        }
-    if (len_pattern < len_pattern + argument->len) {
-        argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern * argument->len) * sizeof(char));
-        }
+        argument->reg_pattern = malloc((len_pattern + MAX_LINE_SIZE) * sizeof(char));
+        // argument->reg_pattern[0] = '\0';  // Инициализация строки При первом выделении памяти строка инициализируется нулевым символом, чтобы избежать неопределенного поведения при использовании strcat.
+    } else {
+        argument->reg_pattern = realloc(argument->reg_pattern, (argument->len + len_pattern + 3) * sizeof(char));
+    }
+
     if (argument->len > 0) {
         strcat(argument->reg_pattern, "|");
-        argument->len++;
     }
-    argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
-    
 
+    argument->len += sprintf(argument->reg_pattern + argument->len, "(%s)", pattern); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
+    // argument->reg_pattern[argument->len] = '\0'; 
 }
 
 
@@ -324,6 +320,11 @@ void output (flags *argument, int argc, char **argv) {
     regex_t reg; // аргумент preg в  regcomp, regexec (хранение буфергого шаблона, указатель на заканчивающуюся null строку regex и флаги cflags, используемые для определения типа компиляции.)
     // printf("%s!!!!!\n", argument->reg_pattern);
     // printf("Pattern: %s", argument->reg_pattern);
+    // if (argument->reg_pattern == NULL) {
+    //     perror("No pattern.\n");
+    //     exit(1);
+    // }
+    // argument->reg_pattern[argument->len] = '\0';
     if (regcomp(&reg, argument->reg_pattern, REG_EXTENDED | argument->i) != 0) { // regcomp если больше 0 то ошибка; argument->count_filename - флаг в функции regcomp; | побитовая операция
         perror ("ErrorOutput");
        return;
