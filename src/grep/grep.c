@@ -55,7 +55,7 @@ flags parser(int argc, char **argv) {
                 break;
             default:
                 perror("ErrorParser");
-                exit(1);
+                argument.error = 1;
             }
             // printf("%s:", *argv);
         }
@@ -75,7 +75,7 @@ flags parser(int argc, char **argv) {
         // }
         if (argument.reg_pattern == 0) {
             perror("No pattern.\n");
-            exit(1);
+            argument.error = 1;
         }
     
 
@@ -92,6 +92,23 @@ flags parser(int argc, char **argv) {
     return argument;
 }
 
+void add_pattern(flags *argument, char *pattern) {
+    int len_pattern = strlen(pattern);
+  
+    if (argument->len == 0) {
+        argument->reg_pattern = malloc((len_pattern + 4 ) * sizeof(char));
+        }
+    if (len_pattern < len_pattern + argument->len) {
+        argument->reg_pattern = realloc(argument->reg_pattern, (len_pattern + argument->len + 4) * sizeof(char));
+        }
+    if (argument->len > 0) {
+        strcat(argument->reg_pattern, "|");
+        argument->len++;
+    }
+    argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
+    
+
+}
 
 // void add_pattern(flags *argument, char *pattern) {
 //     int len_pattern = strlen(pattern);
@@ -110,23 +127,23 @@ flags parser(int argc, char **argv) {
 
 // }
 
-void add_pattern(flags *argument, char *pattern) {
-    int len_pattern = strlen(pattern);
+// void add_pattern(flags *argument, char *pattern) {
+//     int len_pattern = strlen(pattern);
   
-    if (argument->len == 0) {
-        argument->reg_pattern = malloc((len_pattern + 3) * sizeof(char));
-        // argument->reg_pattern[0] = '\0';  // Инициализация строки При первом выделении памяти строка инициализируется нулевым символом, чтобы избежать неопределенного поведения при использовании strcat.
-    } else {
-        argument->reg_pattern = realloc(argument->reg_pattern, (argument->len + len_pattern + 3) * sizeof(char));
-    }
+//     if (argument->len == 0) {
+//         argument->reg_pattern = malloc((len_pattern + 3) * sizeof(char));
+//         // argument->reg_pattern[0] = '\0';  // Инициализация строки При первом выделении памяти строка инициализируется нулевым символом, чтобы избежать неопределенного поведения при использовании strcat.
+//     } else {
+//         argument->reg_pattern = realloc(argument->reg_pattern, (argument->len + len_pattern + 3) * sizeof(char));
+//     }
 
-    if (argument->len > 0) {
-        strcat(argument->reg_pattern, "|");
-    }
+//     if (argument->len > 0) {
+//         strcat(argument->reg_pattern, "|");
+//     }
 
-    argument->len += sprintf(argument->reg_pattern + argument->len, "(%s)", pattern); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
-    // argument->reg_pattern[argument->len] = '\0'; 
-}
+//     argument->len += sprintf(argument->reg_pattern + argument->len, "(%s)", pattern); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
+//     // argument->reg_pattern[argument->len] = '\0'; 
+// }
 
 
 void reader_regs(flags *argument, char *file_name) {
@@ -148,7 +165,7 @@ void reader_regs(flags *argument, char *file_name) {
 
      if (argument->len == 0) {
         perror("No pattern in file");
-        exit(1);
+        return;
     }
 }
 
@@ -173,7 +190,7 @@ FILE *reader(flags *argument, char *file_name) {
             perror(file_name);
             
         }
-        exit(1);
+        // exit(1);// тут был exit(1)
     }
     return f;
 }

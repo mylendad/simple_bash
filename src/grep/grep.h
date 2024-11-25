@@ -7,6 +7,7 @@
 
 typedef struct flags
 {
+    int error;
     int len;
     int memory;
     // char pattern_e[MAX_LINE_SIZE];
