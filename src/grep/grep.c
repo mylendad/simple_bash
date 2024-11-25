@@ -114,7 +114,7 @@ void add_pattern(flags *argument, char *pattern) {
     int len_pattern = strlen(pattern);
   
     if (argument->len == 0) {
-        argument->reg_pattern = malloc((len_pattern + MAX_LINE_SIZE) * sizeof(char));
+        argument->reg_pattern = malloc((len_pattern + 3) * sizeof(char));
         // argument->reg_pattern[0] = '\0';  // Инициализация строки При первом выделении памяти строка инициализируется нулевым символом, чтобы избежать неопределенного поведения при использовании strcat.
     } else {
         argument->reg_pattern = realloc(argument->reg_pattern, (argument->len + len_pattern + 3) * sizeof(char));
