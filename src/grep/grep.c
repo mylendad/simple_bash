@@ -11,7 +11,7 @@
 flags parser(int argc, char **argv) {
     flags argument = {0}; 
     int arguments;
-    while ((arguments = getopt(argc, argv, "e:ivclnhsf:o")) != -1) { // Если за таким символом стоит двоеточие, то параметр требует указания аргумента. При этом getopt() помещает указатель на следующий за символом параметра текст в тот же элемент argv, или на текст следующего элемента argv в optarg. 
+    while ((arguments = getopt(argc, argv, "e:ivclnhsf:o")) != -1) { // Если за таким символом стоит двоеточие, то параметр требует указания аргумента. При этом getopt() помещает указатель на следующий за символом параметра текст в тот же элемент argv, или на текст следующего элемента argv в optarg. Возвращает символ параметра
         switch (arguments)
         {
             case 'e':
@@ -61,10 +61,10 @@ flags parser(int argc, char **argv) {
         }
         // printf("%s:", *argv);
         // if (argument.reg_pattern == 0 && optind < argc) { // // на слчай если регулярное выражение не распарсилось с помощью флагов
-            if (argument.len == 0 && optind < argc) {
-            // if (argument.len == 0) {
+            if (argument.len == 0 && optind < argc) { // на слчай если регулярное выражение не распарсилось с помощью флагов -e
+            // if (argument.len == 0) { 
                 // if (argument.f == 1) {
-                    add_pattern(&argument, argv[optind]); //?
+                    add_pattern(&argument, argv[optind]); 
                 // }
                 // argument.reg_pattern[0] = *argv[optind]; // optind — это индекс следующего обрабатываемого элемента argv. Изначально "1"
                 optind++;
@@ -127,7 +127,8 @@ void add_pattern(flags *argument, char *pattern) {
         strcat(argument->reg_pattern, "|");
         argument->len++;
     }
-    argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF
+    argument->len = argument->len + (sprintf(argument->reg_pattern + argument->len, "(%s)", pattern)); // SPRINTF Возвращаемая величина равна количеству символов, действительно занесенных в массив + \0
+    
 
 }
 
