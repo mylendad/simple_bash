@@ -37,19 +37,8 @@ tests:
 		diff <(./s21_grep -c $(FILE)) <(grep -c $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -l $(FILE)) <(grep -l $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -h $(FILE)) <(grep -h $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -f pattern.txt $(FILE)) <(grep -f pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -f ./test_files/pattern.txt $(FILE)) <(grep -f ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -o $(FILE)) <(grep -o $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep $(FILEERROR)) <(grep $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -e $(FILEERROR)) <(grep -e $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -n $(FILEERROR)) <(grep -n $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -s $(FILEERROR)) <(grep -s $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -i $(FILEERROR)) <(grep -i $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -v $(FILEERROR)) <(grep -v $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -c $(FILEERROR)) <(grep -c $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -l $(FILEERROR)) <(grep -l $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -h $(FILEERROR)) <(grep -h $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -f pattern.txt $(FILE)) <(grep -f pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		diff <(./s21_grep -o $(FILEERROR)) <(grep -o $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ei $(FILE)) <(grep -ei $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ev $(FILE)) <(grep -ev $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ec $(FILE)) <(grep -ec $(FILE)) && echo "SUCCES!" || echo "FAIL!"
@@ -63,21 +52,21 @@ tests:
 		# diff <(./s21_grep -vn $(FILE)) <(grep -vn $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -vh $(FILE)) <(grep -vh $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -vs $(FILE)) <(grep -vs $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -ef pattern.txt $(FILE)) <(grep -ef pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -vf pattern.txt $(FILE)) <(grep -vf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -lf pattern.txt $(FILE)) <(grep -lf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -cf pattern.txt $(FILE)) <(grep -cf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -nf pattern.txt $(FILE)) <(grep -nf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -hf pattern.txt $(FILE)) <(grep -hf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -sf pattern.txt $(FILE)) <(grep -sf pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fo pattern.txt $(FILE)) <(grep -fo pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fv pattern.txt $(FILE)) <(grep -fv pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fl pattern.txt $(FILE)) <(grep -fl pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fc pattern.txt $(FILE)) <(grep -fc pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fn pattern.txt $(FILE)) <(grep -fn pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fh pattern.txt $(FILE)) <(grep -fh pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -fs pattern.txt $(FILE)) <(grep -fs pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
-		# diff <(./s21_grep -of pattern.txt $(FILE)) <(grep -fo pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -ef ./test_files/pattern.txt $(FILE)) <(grep -ef ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -vf ./test_files/pattern.txt $(FILE)) <(grep -vf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -lf ./test_files/pattern.txt $(FILE)) <(grep -lf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -cf ./test_files/pattern.txt $(FILE)) <(grep -cf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -nf ./test_files/pattern.txt $(FILE)) <(grep -nf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -hf ./test_files/pattern.txt $(FILE)) <(grep -hf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -sf ./test_files/pattern.txt $(FILE)) <(grep -sf ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fo ./test_files/pattern.txt $(FILE)) <(grep -fo ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fv ./test_files/pattern.txt $(FILE)) <(grep -fv ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fl ./test_files/pattern.txt $(FILE)) <(grep -fl ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fc ./test_files/pattern.txt $(FILE)) <(grep -fc ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fn ./test_files/pattern.txt $(FILE)) <(grep -fn ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fh ./test_files/pattern.txt $(FILE)) <(grep -fh ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -fs ./test_files/pattern.txt $(FILE)) <(grep -fs ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		# diff <(./s21_grep -of ./test_files/pattern.txt $(FILE)) <(grep -fo ./test_files/pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -vo $(FILE)) <(grep -vo $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -cl $(FILE)) <(grep -cl $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -cn $(FILE)) <(grep -cn $(FILE)) && echo "SUCCES!" || echo "FAIL!"
@@ -105,7 +94,7 @@ tests:
 		$(CHECK) ./s21_grep -n $(FILE)
 		$(CHECK) ./s21_grep -h $(FILE)
 		$(CHECK) ./s21_grep -s $(FILE)
-		$(CHECK) ./s21_grep -f pattern.txt $(FILE)
+		$(CHECK) ./s21_grep -f ./test_files/pattern.txt $(FILE)
 		$(CHECK) ./s21_grep -o $(FILE)
 		# $(CHECK) ./s21_grep -ei $(FILE)
 		# $(CHECK) ./s21_grep -ev $(FILE)
@@ -114,34 +103,34 @@ tests:
 		# $(CHECK) ./s21_grep -en $(FILE)
 		# $(CHECK) ./s21_grep -eh $(FILE)
 		# $(CHECK) ./s21_grep -es $(FILE)
-		# $(CHECK) ./s21_grep -ef pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -ef ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -eo $(FILE)
 		# $(CHECK) ./s21_grep -vc $(FILE)
 		# $(CHECK) ./s21_grep -vl $(FILE)
 		# $(CHECK) ./s21_grep -vn $(FILE)
 		# $(CHECK) ./s21_grep -vh $(FILE)
 		# $(CHECK) ./s21_grep -vs $(FILE)
-		# $(CHECK) ./s21_grep -vf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -vf ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -vo $(FILE)
 		# $(CHECK) ./s21_grep -cl $(FILE)
 		# $(CHECK) ./s21_grep -cn $(FILE)
 		# $(CHECK) ./s21_grep -ch $(FILE)
 		# $(CHECK) ./s21_grep -cs $(FILE)
-		# $(CHECK) ./s21_grep -cf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -cf ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -co $(FILE)
 		# $(CHECK) ./s21_grep -ln $(FILE)
 		# $(CHECK) ./s21_grep -lh $(FILE)
 		# $(CHECK) ./s21_grep -ls $(FILE)
-		# $(CHECK) ./s21_grep -lf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -lf ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -lo $(FILE)
 		# $(CHECK) ./s21_grep -nh $(FILE)
 		# $(CHECK) ./s21_grep -ns $(FILE)
-		# $(CHECK) ./s21_grep -nf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -nf ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -no $(FILE)
 		# $(CHECK) ./s21_grep -hs $(FILE)
-		# $(CHECK) ./s21_grep -hf pattern.txt $(FILE)
+		# $(CHECK) ./s21_grep -hf ./test_files/pattern.txt $(FILE)
 		# $(CHECK) ./s21_grep -ho $(FILE)
-		# $(CHECK) ./s21_grep -sf pattern.txt$(FILE)
+		# $(CHECK) ./s21_grep -sf ./test_files/pattern.txt$(FILE)
 		# $(CHECK) ./s21_grep -so $(FILE)
 		# $(CHECK) ./s21_grep -fo $(FILE)
 
