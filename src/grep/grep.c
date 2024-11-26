@@ -199,6 +199,9 @@ FILE *reader(flags *argument, char *file_name) {
 void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int count_filename) { // regex_t *reg - структура для хранения скомпилированного регулярного выражения.
  
     FILE *f = reader(argument, file_name);
+    if (f == 0) {
+        return;
+    }
     char line[MAX_LINE_SIZE];
     int count_reg = 0; 
     int line_counter = 1;
