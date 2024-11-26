@@ -1,10 +1,9 @@
 CC=gcc
 CFLAGS=-std=c11 -Wall -Werror -Wextra
 LDFLAGS=-g 
-MATHFLAG=-lm
-TARGET=main
 SHELL:=/bin/bash
 FILE=./test_files/test.txt ./test_files/test_0_grep.txt ./test_files/test_1_grep.txt ./test_files/test_2_grep.txt ./test_files/test_3_grep.txt ./test_files/test_4_grep.txt ./test_files/test_5_grep.txt ./test_files/test_6_grep.txt
+FILEERROR=qwerty
 CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
 
 all: clean s21_grep tests
@@ -30,6 +29,7 @@ tests:
 
 		diff <(./s21_grep $(FILE)) <(grep $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -e $(FILE)) <(grep -e $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -q $(FILE)) <(grep -q $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -n $(FILE)) <(grep -n $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -s $(FILE)) <(grep -s $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -i $(FILE)) <(grep -i $(FILE)) && echo "SUCCES!" || echo "FAIL!"
@@ -39,6 +39,17 @@ tests:
 		diff <(./s21_grep -h $(FILE)) <(grep -h $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -f pattern.txt $(FILE)) <(grep -f pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		diff <(./s21_grep -o $(FILE)) <(grep -o $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep $(FILEERROR)) <(grep $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -e $(FILEERROR)) <(grep -e $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -n $(FILEERROR)) <(grep -n $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -s $(FILEERROR)) <(grep -s $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -i $(FILEERROR)) <(grep -i $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -v $(FILEERROR)) <(grep -v $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -c $(FILEERROR)) <(grep -c $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -l $(FILEERROR)) <(grep -l $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -h $(FILEERROR)) <(grep -h $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -f pattern.txt $(FILE)) <(grep -f pattern.txt $(FILE)) && echo "SUCCES!" || echo "FAIL!"
+		diff <(./s21_grep -o $(FILEERROR)) <(grep -o $(FILEERROR)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ei $(FILE)) <(grep -ei $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ev $(FILE)) <(grep -ev $(FILE)) && echo "SUCCES!" || echo "FAIL!"
 		# diff <(./s21_grep -ec $(FILE)) <(grep -ec $(FILE)) && echo "SUCCES!" || echo "FAIL!"
