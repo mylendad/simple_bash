@@ -53,53 +53,25 @@ flags parser(int args, char ** argv, int *counter) {
     return argument;
 }
 
-char v_flag(unsigned char simbol) {
-    // if (simbol == '\n' || simbol == '\t') {
-    //     return simbol; // предварительная проверка аргументов функции
-    // }
-    // if (simbol < 0) {
-    //     putchar('M'); // что тос этим сделать
-    //     putchar('-');
-    // }
-    if (simbol <= 31) {
+char v_flag(char simbol) { // 
+    if (simbol == '\n' || simbol == '\t') {
+        simbol = simbol;
+    }
+    else {
+    if (simbol < 0) {
+        putchar('M'); // что тос этим сделать
+         putchar('-');
+        simbol = simbol & 0xfF; // чтобы отбросить старший бит используем побоитовую маску
+    }
+    if (simbol <= 31 && simbol > 0) {
         putchar('^');
         simbol += 64;
     }
-    else {
-        {
-                  if (simbol < 127)
-                    simbol = simbol;
-                  else if (simbol == 127)
+    else if (simbol == 127)
                     {
                       putchar('^');
                       simbol = '?';
                     }
-                  else
-                    {
-                      putchar('M');
-                      simbol = '-';
-                      if (simbol >= 128 + 32)
-                        {
-                          if (simbol < 128 + 127)
-                            simbol = simbol - 128;
-                          else
-                            {
-                              putchar('^');
-                              simbol = '?';
-                            }
-                        }
-                      else
-                        {
-                          putchar('^');
-                          simbol = simbol - 128 + 64;
-                        }
-                    }
-                }
-    }
-
-    if (simbol == 127) {
-        putchar('^');
-        simbol = '?';
     }
     return simbol;
 }
@@ -115,9 +87,14 @@ void outline(flags *argument, char *line, int n) {
             line[i] = 'I';
         }
         if (argument->v == 1) {
-            if (line[i] != '\n' || line[i] != '\t')
-            line[i] = v_flag(line[i]);
-            }
+          
+                
+     
+                
+                line[i] = v_flag(line[i]);
+            
+       
+        }
         putchar(line[i]);
     }
 }

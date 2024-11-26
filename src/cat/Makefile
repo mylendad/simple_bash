@@ -8,7 +8,10 @@ FILE=test.txt test_2.txt
 CHECK=2>&1 valgrind --tool=memcheck --leak-check=yes
 .PHONY: all cat_run clean
 
-all: clean 21_cat tests
+all: clean s21_cat tests
+		
+
+s21_cat:
 		$(CC)  $(CFLAGS) test_cat.c cat.c $(LDFLAGS) -o s21_cat
 
 tests:
