@@ -19,6 +19,8 @@ void reader_regs(flags *argument, char *file_name);
 
 flags parser(int args, char **argv);
 
+void flag_o(regex_t* re, char* line);
+
 void outline(char *line, int n);
 
 FILE *reader(char *file_name);

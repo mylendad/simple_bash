@@ -85,6 +85,11 @@ void add_pattern(flags *argument, char *pattern) {
 void reader_regs(flags *argument, char *file_name) {
    
     FILE *f = reader(file_name);
+
+     if (f == 0) {
+        perror(file_name);
+        return;
+    }
     char line[MAX_LINE_SIZE];
     int line_counter = 0;
    
@@ -99,10 +104,28 @@ void reader_regs(flags *argument, char *file_name) {
     }
     fclose(f);
 
-     if (argument->len == 0) {
-        perror("No pattern in file");
-        return;
+    //  if (argument->len == 0) {
+    //     perror("No pattern in file");
+    //     return;
+    // }
+}
+
+void flag_o(regex_t* re, char* line) {
+    regmatch_t math;
+    int offset = 0;
+    while (1) {
+        int result = regexec(re, line + offset, 1, &math, 0);
+        if (result != 0) {
+            break;
+        }
+        for (int i = math.rm_so; i < math.rm_eo; i++) {
+            putchar(line[i]);
+             
+        }
+        putchar('\n');
+        offset += math.rm_eo;
     }
+  
 }
 
 void outline(char *line, int n) {
@@ -129,29 +152,37 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int
     int line_counter = 1;
         while (fgets(line, sizeof(line), f) != NULL) {
             int result = regexec(reg, line, 0, NULL, 0); // int regexec(const regex_t *preg, const char *string, size_t nmatch, regmatch_t pmatch[], int eflags);
-            if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0 && argument->o == 0 && argument->l == 0){
+            if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0 && argument->l == 0){ // с выводом строки
         
                 if (argv[3] != NULL  && argument->h == 0){
                     if (strstr("-", argv[3]) == NULL) {
                         
                         printf("%s:", file_name);
+                       
                     } 
                 }
-                 if (argument->n == 1) {
+                if (argument->n == 1) {
                 printf("%d:", line_counter);
-            }       
-            outline(line, strlen(line));
+                }   
+                if (result == 0  && argument->o == 1) {
+                 flag_o(reg, line);
+                // printf("%s\n", argument->reg_pattern);
+                // count_reg++;
+                }   
+                else {
+                    outline(line, strlen(line));
                 }
+                } // дальше без вывода строки
            line_counter++;
-            if (result == 0  && argument->o == 1) {
-                if (argv[3] != NULL  && argument->h == 0){
-                    if (strstr("-", argv[3]) == NULL) {    
-                        printf("%s:", file_name);
-                    }
-                }
-                printf("%s\n", argv[2]);
-                count_reg++;
-            }
+            // if (result == 0  && argument->o == 1) {
+            //     if (argv[3] != NULL  && argument->h == 0){
+            //         if (strstr("-", argv[3]) == NULL) {    
+            //             printf("%s:", file_name);
+            //         }
+            //     }
+            //     printf("%s\n", argv[2]);
+            //     count_reg++;
+            // }
         if ((argument->c == 1 || argument->l == 1 )&& result == 0) {
                     count_reg++;
                 }
@@ -162,8 +193,11 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int
         }
         if (argument->c == 1){ // лишний prant argv[0]
         char *name_file = argv[count_filename];
-         if (argv[4] != NULL) {
-                        printf("%s:", name_file);                  
+         if (argv[4] != NULL) { 
+            if (argument->h == 0) {
+                        printf("%s:", name_file); 
+                            }
+                        // printf("%d:", argument->h);                 
                     }
                     printf("%d\n", count_reg);    
         }
@@ -182,6 +216,7 @@ void output (flags *argument, int argc, char **argv) {
            if (argv[4] != NULL  && argument->h == 0 && argument->l == 0 && argument->s == 0 && argument->o == 0 && argument->f == 0 && argument->e == 0 && argument->v == 0 && argument->i == 0 && argument->n == 0 && strstr("-", argv[1]) != NULL ){ 
                     if (strstr("-", argv[4]) == NULL) {
                 printf("%s:", argv[count_filename]);
+                 
             }
         }      
         comparator(argument, argv[count_filename], &reg, argv, count_filename); //  в regex_t сохранено скомпилированное регулярное выражение.
