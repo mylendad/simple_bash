@@ -103,11 +103,6 @@ void reader_regs(flags *argument, char *file_name) {
             
     }
     fclose(f);
-
-    //  if (argument->len == 0) {
-    //     perror("No pattern in file");
-    //     return;
-    // }
 }
 
 void flag_o(regex_t* re, char* line) {
