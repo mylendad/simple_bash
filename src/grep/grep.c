@@ -106,21 +106,16 @@ void reader_regs(flags *argument, char *file_name) {
 }
 
 void flag_o(regex_t* re, char* line) {
-    regmatch_t math;
-    int offset = 0;
-    while (1) {
-        int result = regexec(re, line + offset, 1, &math, 0);
-        if (result != 0) {
-            break;
-        }
-        for (int i = math.rm_so; i < math.rm_eo; i++) {
-            putchar(line[i]);
-             
+    regmatch_t match;
+    int shift = 0;
+    int result;
+    while ((result = regexec(re, line + shift, 1, &match, 0)) == 0) {
+         for (int i = match.rm_so; i < match.rm_eo; i++) {
+            putchar(line[i]); 
         }
         putchar('\n');
-        offset += math.rm_eo;
+        shift += match.rm_eo;
     }
-  
 }
 
 void outline(char *line, int n) {
