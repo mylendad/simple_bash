@@ -101,38 +101,37 @@ void outline(flags *argument, char *line, int n) {
 
 void output (flags *argument, int file_count, char **argv) { // вынести в reader(no)
     
+    int line_counter = 1;
+    int previous_line = 0;
+    int line_start = 1;
     for (int i = 0; i < file_count; i++) {
         FILE *f = fopen(argv[i], "r"); 
         if (f == NULL) {
             perror("Error");
             return; 
         }
-        int line_counter = 1;
         char line[MAX_LINE_SIZE];
-        int previous_line = 0;
 
         while (fgets(line, MAX_LINE_SIZE, f) != NULL) {
-            int empty_line = 0;
-            if (line[0] == '\n') {
-                empty_line = 1;
-            }
-            if (argument->n == 1) {
-                printf("%6d\t", line_counter);
-                line_counter++;
-            }
-            if (argument->b == 1) {
-                if (line[0] != '\n') {
-                printf("%6d\t", line_counter);
-                line_counter++;
+            int line_len = strlen(line);
+            int empty_line = (line_start && line[0] == '\n');
+            int output_line = (argument->s != 1 || previous_line == 0 || empty_line == 0);
+
+            if (line_start && output_line) {
+                if (argument->n == 1 && argument->b != 1) {
+                    printf("%6d\t", line_counter);
+                    line_counter++;
+                }
+                if (argument->b == 1 && line[0] != '\n') {
+                    printf("%6d\t", line_counter);
+                    line_counter++;
                 }
             }
-
-                if (argument->s != 1 || previous_line == 0 || empty_line == 0){
-            
-                        outline(argument, line, strlen(line));
-                    }
+            if (output_line) {
+                outline(argument, line, line_len);
+            }
             previous_line = empty_line;
-            // line_counter++;
+            line_start = (line[line_len - 1] == '\n');
         }
         fclose(f);
     } 

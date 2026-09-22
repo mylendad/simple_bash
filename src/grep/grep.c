@@ -142,13 +142,14 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int
     int line_counter = 1;
         while (fgets(line, sizeof(line), f) != NULL) {
             int result = regexec(reg, line, 0, NULL, 0); // int regexec(const regex_t *preg, const char *string, size_t nmatch, regmatch_t pmatch[], int eflags);
-            if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0 && argument->l == 0){ // с выводом строки
+if (((result == 0  && argument->v == 0) || (result != 0 && argument->v == 1)) && argument->c == 0 && argument->l == 0){ // с выводом строки
+                if (argument->o == 0 || result == 0) {
         
                 if (argv[3] != NULL  && argument->h == 0){
                     if (strstr("-", argv[3]) == NULL) {
                         
                         printf("%s:", file_name);
-                       
+                        
                     } 
                 }
                 if (argument->n == 1) {
@@ -163,6 +164,7 @@ void comparator(flags *argument, char *file_name, regex_t *reg, char **argv, int
                     outline(line, strlen(line));
                 }
                 } // дальше без вывода строки
+            }
            line_counter++;
             // if (result == 0  && argument->o == 1) {
             //     if (argv[3] != NULL  && argument->h == 0){
